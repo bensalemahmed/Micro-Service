@@ -1,0 +1,64 @@
+{
+  "name": "compte-api",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "compte-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/compte-api",
+        "main": "compte-api/src/main.ts",
+        "tsConfig": "compte-api/tsconfig.app.json",
+        "assets": ["compte-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "compte-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "compte-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "compte-api:build:development"
+        },
+        "production": {
+          "buildTarget": "compte-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["compte-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "compte-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

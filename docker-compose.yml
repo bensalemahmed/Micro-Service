@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+  Auth:
+    container_name: authenticationmicroservice
+    build: ./MonoRepoWithSpring/authenticationmicroservice
+    ports:
+      - "8081:8081"
+    hostname: authenticationmicroservice
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    image: "authenticationmicroservice"
+    depends_on:
+      - Eureka
+  Gateway:
+    container_name: apigateway
+    build: ./MonoRepoWithSpring/apigateway
+    ports:
+      - "8054:8054"
+    hostname: apigateway
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    image: "apigateway"
+    depends_on:
+      - Eureka
+  # node:
+  #   container_name: node-service
+  #   image: "node-service"
+  #   build: ./node-service
+  #   ports:
+  #     - "3000:5000"
+  #   hostname: node-service
+  #   environment:
+  #     - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=eureka-server
+  #   depends_on:
+  #     - "Eureka"
+  #     - "Mongo"
+  #   command: "node ./index.js"
+  Eureka:
+    container_name: eurekaserver
+    build: ./MonoRepoWithSpring/eurekaserver
+    ports:
+      - "8761:8761"
+    hostname: eurekaserver
+    image: "eurekaserver"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+  configserver:
+    container_name: configserver
+    build: ./MonoRepoWithSpring/configserver
+    ports:
+      - "8888:8888"
+    hostname: configserver
+    image: "configserver"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+  Mongo:
+    container_name: Mongo
+    image: "mongo:5-focal"
+    ports:
+      - "27017:27017"
+    hostname: mongodb
+    depends_on:
+      - "Eureka"
