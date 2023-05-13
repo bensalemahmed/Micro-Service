@@ -31,15 +31,4 @@ public class AuthenticationMicroserviceApplication {
 		};
 	}
 
-	@Bean
-	public CommandLineRunner init(RoleService roleService, UserService userService) {
-		return args -> {
-			// init roles list
-			roleService.saveRole(Role.builder().name("ADMIN").build());
-			roleService.saveRole(Role.builder().name("USER").build());
-
-			// init users list
-			userService.saveUser(User.builder().email("ahmed@esprit.tn").password("admin").username("ahbensalam").roles(new ArrayList<>()).build());
-		};
-	}
 }

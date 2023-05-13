@@ -1,6 +1,7 @@
 package com.ahmed.authenticationmicroservice;
 
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ public class User {
      * id
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.SEQUENCE,generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
     private Long id;
     /**
      * email
@@ -31,12 +33,11 @@ public class User {
     /**
      * username
      */
+    @Column(unique = true)
     private String username;
     /**
-     * lis of roles
+     * list of roles
      */
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
-
-
 }

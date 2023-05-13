@@ -11,6 +11,7 @@
         <module name="eurekaserver" />
         <module name="configserver" />
         <module name="authenticationmicroservice" />
+        <module name="GateWay" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +21,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="GateWay" options="-parameters" />
       <module name="api-gateway" options="-parameters" />
       <module name="apigateway" options="-parameters" />
       <module name="authenticationmicroservice" options="-parameters" />
